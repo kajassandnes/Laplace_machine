@@ -6,6 +6,7 @@ from jax.experimental import optimizers
 from jax import jit 
 from jax import grad
 from jax import vmap
+from jax import random
 
 # number of nodes in hidden layer
 n = 100
@@ -47,3 +48,9 @@ dVdx_vect = vmap(dVdx, (None, 0, 0))
 dVdy_vect = vmap(dVdy, (None, 0, 0))
 ddVddx_vect = vmap(ddVddx, (None, 0, 0))
 ddVddy_vect = vmap(ddVddy, (None, 0, 0))
+
+# defining initial weights for the neural network
+# weights are randomly choosen with normal distribution
+key = random.PRNGKey(0)
+params = random.normal(key, shape=(4*n+1,))
+
