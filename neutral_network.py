@@ -4,6 +4,7 @@ import jax.numpy as np
 import matplotlib.pyplot as plt
 from jax.experimental import optimizers
 from jax import jit 
+from jax import grad
 
 # number of nodes in hidden layer
 n = 100
@@ -34,3 +35,8 @@ def V(params:numpy.ndarray, x, y):
 
     return output
 
+# defining the derivatives
+dVdx = grad(V, 1)
+dVdy = grad(V, 2)
+ddVddx = grad(dVdx, 1)
+ddVddy = grad(dVdx, 2)
