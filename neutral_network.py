@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from jax.experimental import optimizers
 from jax import jit 
 from jax import grad
+from jax import vmap
 
 # number of nodes in hidden layer
 n = 100
@@ -13,13 +14,13 @@ def g(u):
     """Activation function. Returns hidden variable"""
     return np.tanh(u)
 
-def V(params:numpy.ndarray, x, y):
+def V(params:numpy.ndarray, x:float, y:float):
     """Function representing the potential. 
     
     Arguments:
         params (np.ndarray): all the weights with length 'n' 
-        x (): point on x-axis 
-        y (): point on y-axis
+        x (float): point on x-axis 
+        y (float): point on y-axis
 
     Returns:
         output (float): weighted sum of hidden variables
@@ -40,3 +41,9 @@ dVdx = grad(V, 1)
 dVdy = grad(V, 2)
 ddVddx = grad(dVdx, 1)
 ddVddy = grad(dVdx, 2)
+
+V_vect = vmap(V, (None, 0, 0))
+dVdx_vect = vmap(dVdx, (None, 0, 0))
+dVdy_vect = vmap(dVdy, (None, 0, 0))
+ddVddx_vect = vmap(ddVddx, (None, 0, 0))
+ddVddy_vect = vmap(ddVddy, (None, 0, 0))
